@@ -13,6 +13,19 @@ Milestone 3: invece di visualizzare la password nella index,
 effettuare un redirect ad una pagina dedicata che tramite $_SESSION recupererà la password da mostrare all’utente. -->
 
 <?php 
+$password_length = $_GET['password-length'];
+
+function getPassword($password_length) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $randomString = '';
+ 
+    for ($i = 0; $i < $password_length; $i++) {
+        $index = rand(0, strlen($characters) - 1);
+        $randomString .= $characters[$index];
+    }
+ 
+    return $randomString;
+}
 
 ?>
 
@@ -29,14 +42,23 @@ effettuare un redirect ad una pagina dedicata che tramite $_SESSION recupererà 
 <body class="vh-100">
     <div class="bg-dark text-white text-center h-100 p-5">
         <h1 class="mb-5">Password Generator</h1>
-        <div class="alert alert-info mx-auto w-25" role="alert">
-        La tua password è: <b></b>
-        </div>
+
+        <?php if(!empty($password_length)) : ?>
+            <div class="alert alert-info mx-auto w-25" role="alert">
+            La tua password è: <b><?= getPassword($password_length)?></b>
+            </div>
+        <?php endif; ?>
+        <?php if(empty($password_length)) : ?>
+            <div class="alert alert-danger mx-auto w-25" role="alert">
+            Devi inserire almeno un numero
+            </div>
+        <?php endif; ?>
+
         <div class="m-5">
             <form action="" class="input-group" method="GET">
-                <input type="number" class="form-control" placeholder="Quanti caratteri deve essere lunga la password?">
-                <button class="btn btn-primary" type="button">Invia</button>
-                <button class="btn btn-outline-secondary" type="button">Annulla</button>
+                <input type="number" class="form-control" min="1" max="15" name="password-length" placeholder="Quanti caratteri deve essere lunga la password?">
+                <button type="submit" class="btn btn-primary" type="button">Invia</button>
+                <button type="reset" class="btn btn-outline-secondary" type="button">Reset</button>
             </form>
         </div>
         
