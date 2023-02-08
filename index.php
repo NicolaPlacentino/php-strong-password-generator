@@ -15,17 +15,7 @@ effettuare un redirect ad una pagina dedicata che tramite $_SESSION recupererà 
 <?php 
 $password_length = $_GET['password-length'];
 
-function getPassword($password_length) {
-    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $randomString = '';
- 
-    for ($i = 0; $i < $password_length; $i++) {
-        $index = rand(0, strlen($characters) - 1);
-        $randomString .= $characters[$index];
-    }
- 
-    return $randomString;
-}
+include __DIR__ . '/includes/functions.php'
 
 ?>
 
