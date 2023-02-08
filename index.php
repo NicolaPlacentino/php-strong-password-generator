@@ -13,10 +13,19 @@ Milestone 3: invece di visualizzare la password nella index,
 effettuare un redirect ad una pagina dedicata che tramite $_SESSION recupererà la password da mostrare all’utente. -->
 
 <?php 
-$password_length = $_GET['password-length'];
+session_start();
 
-include __DIR__ . '/includes/functions.php'
+$password_length = $_GET['password-length'] ?? 0;
 
+$display_alert = false;
+
+include __DIR__ . '/includes/functions.php';
+
+$_SESSION['final-password'] = getPassword($password_length);
+
+if($password_length){
+    header('Location: finalPassword.php');
+}
 ?>
 
 <!DOCTYPE html>
@@ -33,22 +42,11 @@ include __DIR__ . '/includes/functions.php'
     <div class="bg-dark text-white text-center h-100 p-5">
         <h1 class="mb-5">Password Generator</h1>
 
-        <?php if(!empty($password_length)) : ?>
-            <div class="alert alert-info mx-auto w-25" role="alert">
-            La tua password è: <b><?= getPassword($password_length)?></b>
-            </div>
-        <?php endif; ?>
-        <?php if(empty($password_length)) : ?>
-            <div class="alert alert-danger mx-auto w-25" role="alert">
-            Devi inserire almeno un numero
-            </div>
-        <?php endif; ?>
-
         <div class="m-5">
             <form action="" class="input-group" method="GET">
                 <input type="number" class="form-control" min="1" max="15" name="password-length" placeholder="Quanti caratteri deve essere lunga la password?">
                 <button type="submit" class="btn btn-primary" type="button">Invia</button>
-                <button type="reset" class="btn btn-outline-secondary" type="button">Reset</button>
+                <!-- <button type="reset" class="btn btn-outline-secondary" type="button">Reset</button> -->
             </form>
         </div>
         
